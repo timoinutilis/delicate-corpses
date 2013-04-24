@@ -1,0 +1,62 @@
+**************** LOGIN ****************
+
+mysql -uadmin_corpses -p admin_corpses
+
+**************** CREATE ****************
+
+CREATE TABLE users (
+user_id INT UNSIGNED AUTO_INCREMENT,
+login_type CHAR(1),
+login_id VARCHAR(256),
+name VARCHAR(30),
+admin TINYINT UNSIGNED NOT NULL DEFAULT 0,
+register_date DATETIME,
+CONSTRAINT pk_user PRIMARY KEY (user_id)
+);
+ALTER TABLE users ADD INDEX users_login_id_idx (login_id);
+
+CREATE TABLE works (
+work_id INT UNSIGNED AUTO_INCREMENT,
+title VARCHAR(100),
+user_group CHAR(1),
+num_pieces TINYINT UNSIGNED,
+max_pieces TINYINT UNSIGNED,
+finished BOOL,
+lock_date DATETIME,
+date DATETIME,
+pencils VARCHAR(20),
+palette TINYINT UNSIGNED,
+bg_color TINYINT UNSIGNED,
+highlight BOOL,
+CONSTRAINT pk_work PRIMARY KEY (work_id)
+);
+
+CREATE TABLE pieces (
+work_id INT UNSIGNED,
+piece TINYINT UNSIGNED,
+guest VARCHAR(30),
+user_id INT UNSIGNED,
+ip VARCHAR(16),
+date DATETIME,
+CONSTRAINT fk_work_id FOREIGN KEY (work_id) REFERENCES works (work_id)
+);
+
+CREATE TABLE comments (
+comment_id INT UNSIGNED AUTO_INCREMENT,
+type CHAR(1),
+id INT UNSIGNED,
+date DATETIME,
+guest VARCHAR(30),
+user_id INT UNSIGNED,
+text VARCHAR(1000),
+CONSTRAINT pk_comment PRIMARY KEY (comment_id)
+);
+ALTER TABLE comments ADD INDEX comments_id_idx (id);
+
+CREATE TABLE news (
+news_id INT UNSIGNED AUTO_INCREMENT,
+date DATETIME,
+title TEXT,
+text TEXT,
+CONSTRAINT pk_news PRIMARY KEY (news_id)
+);
